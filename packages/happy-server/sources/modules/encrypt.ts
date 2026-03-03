@@ -3,8 +3,11 @@ import { KeyTree, crypto } from "privacy-kit";
 let keyTree: KeyTree | null = null;
 
 export async function initEncrypt() {
+    if (!process.env.HANDY_MASTER_SECRET) {
+        throw new Error('HANDY_MASTER_SECRET environment variable is required');
+    }
     keyTree = new KeyTree(await crypto.deriveSecureKey({
-        key: process.env.HANDY_MASTER_SECRET!,
+        key: process.env.HANDY_MASTER_SECRET,
         usage: 'happy-server-tokens'
     }));
 }

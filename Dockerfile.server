@@ -53,5 +53,5 @@ COPY --from=builder /repo/packages/happy-server /repo/packages/happy-server
 # Expose the port the app will run on
 EXPOSE 3000
 
-# Command to run the application
-CMD ["yarn", "--cwd", "packages/happy-server", "start"]
+# Run migrations and start the application
+CMD ["sh", "-c", "cd packages/happy-server && npx prisma migrate deploy && cd /repo && yarn --cwd packages/happy-server start"]
